@@ -4,7 +4,8 @@
 		"HEAD",
 		"LEFT_ARM",
 		"RIGHT_ARM",
-		"ROOT"
+		"LEFT_LEG",
+		"RIGHT_LEG"
 	],
 	"animations": {
 		"main": {

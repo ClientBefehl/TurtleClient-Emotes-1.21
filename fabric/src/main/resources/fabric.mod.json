@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "id": "simple_animator",
+  "id": "turtleclient-emotes",
   "version": "${version}",
 
-  "name": "SimpleAnimator",
+  "name": "TurtleClient-Emotes",
   "description": "",
-  "authors": ["Louis_Quepierts"],
+  "authors": ["Strafverfolgung"],
   "contact": {},
 
   "license": "MIT",
@@ -18,7 +18,7 @@
     ]
   },
   "mixins": [
-    "simple_animator.mixins.json"
+    "turtleclient-emotes.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=${fabric_loader_version}",

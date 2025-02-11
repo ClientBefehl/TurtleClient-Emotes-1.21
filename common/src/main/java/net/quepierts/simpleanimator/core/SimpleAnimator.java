@@ -14,7 +14,7 @@ import org.slf4j.Logger;
 
 public abstract class SimpleAnimator {
 	public static final ISAEventBus EVENT_BUS = new SAEventBusImpl();
-	public static final String MOD_ID = "simple_animator";
+	public static final String MOD_ID = "turtleclient-emotes";
 	public static final Logger LOGGER = LogUtils.getLogger();
 	public static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
