@@ -1,10 +1,12 @@
 package net.quepierts.simpleanimator.core.animation;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.quepierts.simpleanimator.api.animation.Animation;
 import net.quepierts.simpleanimator.api.animation.AnimationState;
 import net.quepierts.simpleanimator.api.event.common.AnimatorEvent;
 import net.quepierts.simpleanimator.core.SimpleAnimator;
+import net.quepierts.simpleanimator.core.network.EmoteWebSocketClient;
 import net.quepierts.simpleanimator.core.network.packet.AnimatorDataPacket;
 
 import java.util.UUID;
@@ -49,7 +51,28 @@ public class Animator {
         this.animation = SimpleAnimator.getProxy().getAnimationManager().getAnimation(location);
         this.timer = 0;
 
+
+
         SimpleAnimator.EVENT_BUS.post(new AnimatorEvent.Play(this.uuid, this.animationLocation, this.animation, this));
+        return true;
+    }
+
+    public boolean send(String emoteName) {
+        ResourceLocation animationId = ResourceLocation.fromNamespaceAndPath("turtleclient-emotes", emoteName);
+        //entity.simpleanimator$getAnimator().play(animationId);
+
+        // Verwende den WebSocket-Client, der in der Hauptklasse initialisiert wurde
+        EmoteWebSocketClient client = SimpleAnimator.getEmoteClient();
+
+        // Überprüfe, ob die Verbindung erfolgreich ist, bevor du das Emote sendest
+        if (client != null && client.isOpen()) {
+            String playerId = Minecraft.getInstance().player.getUUID().toString(); // UUID des Spielers
+            client.sendEmote(emoteName, playerId);
+        } else {
+            System.out.println("WebSocket client is not connected. Cannot send emote.");
+        }
+
+
         return true;
     }
 

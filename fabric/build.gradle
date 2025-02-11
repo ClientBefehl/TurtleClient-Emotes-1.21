@@ -19,10 +19,12 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
     modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
 
+    // Füge die WebSocket und Gson Dependencies zum Shadow hinzu
+    shadow 'org.java-websocket:Java-WebSocket:1.5.3'
+    shadow 'com.google.code.gson:gson:2.10.1'
+
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
-    implementation 'org.java-websocket:Java-WebSocket:1.5.3'
-    implementation 'com.google.code.gson:gson:2.10.1'
 }
 
 processResources {
@@ -40,8 +42,12 @@ processResources {
 }
 
 shadowJar {
-    configurations = [project.configurations.shadowCommon]
+    configurations = [project.configurations.shadowCommon, project.configurations.shadow]
     archiveClassifier = "dev-shadow"
+
+    // Relocate die Dependencies um Konflikte zu vermeiden
+    relocate 'org.java_websocket', 'net.quepierts.simpleanimator.deps.java_websocket'
+    relocate 'com.google.gson', 'net.quepierts.simpleanimator.deps.gson'
 }
 
 remapJar {

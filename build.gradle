@@ -45,6 +45,8 @@ subprojects {
     dependencies {
         minecraft "net.minecraft:minecraft:$rootProject.minecraft_version"
         mappings loom.officialMojangMappings()
+        implementation 'org.java-websocket:Java-WebSocket:1.5.3'
+        implementation 'com.google.code.gson:gson:2.10.1'
     }
 
     java {

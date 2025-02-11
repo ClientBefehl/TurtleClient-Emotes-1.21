@@ -7,16 +7,20 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.quepierts.simpleanimator.api.event.ISAEventBus;
 import net.quepierts.simpleanimator.core.event.SAEventBusImpl;
+import net.quepierts.simpleanimator.core.network.EmoteWebSocketClient;
 import net.quepierts.simpleanimator.core.network.INetwork;
 import net.quepierts.simpleanimator.core.proxy.ClientProxy;
 import net.quepierts.simpleanimator.core.proxy.CommonProxy;
 import org.slf4j.Logger;
+
+import java.net.URI;
 
 public abstract class SimpleAnimator {
 	public static final ISAEventBus EVENT_BUS = new SAEventBusImpl();
 	public static final String MOD_ID = "turtleclient-emotes";
 	public static final Logger LOGGER = LogUtils.getLogger();
 	public static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+	private static EmoteWebSocketClient emoteclient;
 
 	private static CommonProxy proxy;
 	private static INetwork network;
@@ -26,7 +30,8 @@ public abstract class SimpleAnimator {
 		network = inetwork;
 		proxy = isClient ? new ClientProxy(common, client) : new CommonProxy(common);
 		proxy.setup();
-
+		emoteclient = new EmoteWebSocketClient(URI.create("ws://turtlechat.strafbefehl.dev/emotes"));
+		emoteclient.connect(); // Verbindung zum Server herstellen
 		SimpleAnimator.client = isClient;
 	}
 
@@ -45,5 +50,8 @@ public abstract class SimpleAnimator {
 
 	public static boolean isClient() {
 		return client;
+	}
+	public static EmoteWebSocketClient getEmoteClient() {
+		return emoteclient;
 	}
 }
