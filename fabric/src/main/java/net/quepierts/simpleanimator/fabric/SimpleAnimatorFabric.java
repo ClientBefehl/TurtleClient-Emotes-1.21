@@ -27,7 +27,7 @@ public class SimpleAnimatorFabric implements ModInitializer {
         );
 
         // WebSocket-Client initialisieren und verbinden
-        client = new EmoteWebSocketClient(URI.create("ws://localhost:8080/emotes"));
+        client = new EmoteWebSocketClient(URI.create("ws://turtlechat.strafbefehl.dev/emotes"));
         client.connect(); // Verbindung zum Server herstellen
 
         TestKeyBind.register();

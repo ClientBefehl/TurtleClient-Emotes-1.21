@@ -1,5 +1,9 @@
 package net.quepierts.simpleanimator.core.network;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
+import net.quepierts.simpleanimator.api.IAnimateHandler;
 import net.quepierts.simpleanimator.core.SimpleAnimator;
 import net.quepierts.simpleanimator.core.client.ClientAnimator;
 import org.java_websocket.client.WebSocketClient;
@@ -21,20 +25,31 @@ public class EmoteWebSocketClient extends WebSocketClient {
 
     @Override
     public void onMessage(String message) {
-        System.out.println(message);
+        System.out.println("Received message: " + message);
         String[] parts = message.split(":");
         if (parts.length == 2) {
             String playerId = parts[0];
             String emote = parts[1];
 
-            // Hier kannst du die Logik hinzufügen, um das Emote für den Spieler mit playerId auszuführen
             System.out.println("Received emote: " + emote + " from player: " + playerId);
 
-//            // Füge hier die Logik hinzu, um das Emote für den Spieler auszuführen
-//            ClientAnimator animator = SimpleAnimator.getProxy().getAnimatorManager().getAnimator(UUID.fromString(playerId));
-//            if (animator != null) {
-//                animator.play(emote); // Stelle sicher, dass die Methode zum Abspielen des Emotes korrekt ist
-//            }
+            // Erstelle eine ResourceLocation für die Animation
+            ResourceLocation animationId = ResourceLocation.tryParse("turtleclient-emotes:" + emote);
+
+            // Hole den Spieler mit der entsprechenden UUID
+            Minecraft minecraft = Minecraft.getInstance();
+            if (minecraft.level != null) {
+                UUID uuid = UUID.fromString(playerId);
+                Player player = minecraft.level.getPlayerByUUID(uuid);
+
+                if (player != null && player instanceof IAnimateHandler) {
+                    // Spiele die Animation für den gefundenen Spieler ab
+                    IAnimateHandler animateHandler = (IAnimateHandler) player;
+                    animateHandler.simpleanimator$getAnimator().play(animationId);
+                } else {
+                    System.out.println("Player not found or doesn't implement IAnimateHandler: " + playerId);
+                }
+            }
         }
     }
 

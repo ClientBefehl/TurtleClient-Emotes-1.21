@@ -43,7 +43,7 @@ public class TestKeyBind {
 
     public static void playAnimation(IAnimateHandler entity, String animationName) {
         ResourceLocation animationId = ResourceLocation.fromNamespaceAndPath("turtleclient-emotes", animationName);
-        entity.simpleanimator$getAnimator().play(animationId);
+        //entity.simpleanimator$getAnimator().play(animationId);
 
         // Verwende den WebSocket-Client, der in der Hauptklasse initialisiert wurde
         EmoteWebSocketClient client = SimpleAnimatorFabric.getClient();
