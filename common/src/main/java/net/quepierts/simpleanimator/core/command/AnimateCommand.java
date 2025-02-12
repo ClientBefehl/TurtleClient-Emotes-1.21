@@ -40,18 +40,18 @@ public class AnimateCommand {
         return 1;
     }
 
-    private static int play(CommandContext<CommandSourceStack> context) {
-        if (context.getSource().getEntity() instanceof ServerPlayer player) {
-            if (player.gameMode.getGameModeForPlayer() == GameType.SPECTATOR)
-                return 0;
+        private static int play(CommandContext<CommandSourceStack> context) {
+            if (context.getSource().getEntity() instanceof ServerPlayer player) {
+                if (player.gameMode.getGameModeForPlayer() == GameType.SPECTATOR)
+                    return 0;
 
-            ResourceLocation location = ResourceLocationArgument.getId(context, "animation");
-            UUID uuid = player.getUUID();
-            if (((IAnimateHandler) player).simpleanimator$playAnimate(location, false)) {
-                SimpleAnimator.getNetwork().sendToAllPlayers(new AnimatorPlayPacket(uuid, location), player);
+                ResourceLocation location = ResourceLocationArgument.getId(context, "animation");
+                UUID uuid = player.getUUID();
+                if (((IAnimateHandler) player).simpleanimator$playAnimate(location, false)) {
+                    SimpleAnimator.getNetwork().sendToAllPlayers(new AnimatorPlayPacket(uuid, location), player);
+                }
+                return 1;
             }
-            return 1;
+            return 0;
         }
-        return 0;
-    }
 }

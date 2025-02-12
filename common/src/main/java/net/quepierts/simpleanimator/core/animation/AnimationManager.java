@@ -224,5 +224,4 @@ public class AnimationManager implements PreparableReloadListener {
                 SimpleAnimator.getNetwork().sendToPlayer(this.cacheInteractions, player);
         }
     }
-
 }
